@@ -1,39 +1,83 @@
 <template lang='pug'>
-    div(v-on:mouseenter="mouseOverBox(true)" v-on:mouseleave="mouseOverBox(false)")
-      template(v-if="departmentData")
-        .department
-          .col( :id="'ID_'+ departmentData.id" :class="[type, active, managerPhoto]"  @click="setActiveDepartment(departmentData, $event)" @touchend="setActiveDepartment(departmentData, $event)" v-on:contextmenu.prevent="showCtxMenu(departmentData,  $event)")  
-  
-            table
-              tr
-                td.ppl_count0
-                  .ppl_count(v-if="showNrPeople")
-                    .ppl_count_nr(v-if='departmentData.employees.length' :title= "departmentData.employees.length + (departmentData.employees.length===1? ' person in this department': ' people in this department')") {{departmentData.employees.length}}
-                td(v-if='managerPhotoView')
-                  img.profile(:src='config.photoUrl.prefix+departmentData.manager.photo+config.photoUrl.suffix' v-if="departmentData.manager.photo")
-                  .material-icons.nophoto(v-else) face
-                td
-                  .level_indicator(:style="{backgroundColor:config.levelColors[level-1]||'#FFFFFF'}")
-                  div.textdiv(:style="{ height: config.boxHeight + 'px', width: config.boxWidth + 'px' }")
-                    .name(v-html="departmentData.name")
-                    .name_manager(v-if="managerNameView") {{departmentData.manager.name}}
-                td.drill0
-                  .drill 
-                    template(v-if="departmentData.children.length")
-                      i.material-icons.arrow.down(v-if='!departmentData.showChildren' @click.prevent="doShowChildren(true)" @touchend.prevent="doShowChildren(true)") arrow_drop_down
-                      i.material-icons.arrow.up(v-if='departmentData.showChildren' @click.prevent="doShowChildren(false)" @touchend.prevent="doShowChildren(false)") arrow_drop_up
-                      template(v-if="showNrDepartments")
-                        div.hidden_dept.down(v-if='!departmentData.showChildren' @click.prevent="doShowChildren(true)" @touchend.prevent="doShowChildren(true)" :title="departmentData.children.length + ' subdepartment' + (departmentData.children.length===1?'':'s')") {{departmentData.children.length}}
-                        div.hidden_dept.up(v-if='departmentData.showChildren' @click.prevent="doShowChildren(false)" @touchend.prevent="doShowChildren(false)" :title="departmentData.children.length + ' subdepartment' + (departmentData.children.length===1?'':'s')") {{departmentData.children.length}}
+div(
+  v-on:mouseenter='mouseOverBox(true)',
+  v-on:mouseleave='mouseOverBox(false)'
+)
+  template(v-if='departmentData')
+    .department
+      .col(
+        :id='"ID_" + departmentData.id',
+        :class='[type, active, managerPhoto]',
+        @click='setActiveDepartment(departmentData, $event)',
+        @touchend='setActiveDepartment(departmentData, $event)',
+        v-on:contextmenu.prevent='showCtxMenu(departmentData, $event)'
+      ) 
+        table
+          tr
+            td.ppl_count0
+              .ppl_count(v-if='showNrPeople')
+                .ppl_count_nr(
+                  v-if='departmentData.employees.length',
+                  :title='departmentData.employees.length + (departmentData.employees.length === 1 ? " person in this department" : " people in this department")'
+                ) {{ departmentData.employees.length }}
+            td(v-if='managerPhotoView')
+              img.profile(
+                :src='config.photoUrl.prefix + departmentData.manager.photo + config.photoUrl.suffix',
+                v-if='departmentData.manager.photo'
+              )
+              .material-icons.nophoto(v-else) face
+            td
+              .level_indicator(
+                :style='{ backgroundColor: config.levelColors[level - 1] || "#FFFFFF" }'
+              )
+              .textdiv(
+                :style='{ height: config.boxHeight + "px", width: config.boxWidth + "px" }'
+              )
+                .name(v-html='departmentData.name')
+                .name_manager(v-if='managerNameView') {{ departmentData.manager.name }}
+            td.drill0
+              .drill 
+                template(v-if='departmentData.children.length')
+                  i.material-icons.arrow.down(
+                    v-if='!departmentData.showChildren',
+                    @click.prevent='doShowChildren(true)',
+                    @touchend.prevent='doShowChildren(true)'
+                  ) arrow_drop_down
+                  i.material-icons.arrow.up(
+                    v-if='departmentData.showChildren',
+                    @click.prevent='doShowChildren(false)',
+                    @touchend.prevent='doShowChildren(false)'
+                  ) arrow_drop_up
+                  template(v-if='showNrDepartments')
+                    .hidden_dept.down(
+                      v-if='!departmentData.showChildren',
+                      @click.prevent='doShowChildren(true)',
+                      @touchend.prevent='doShowChildren(true)',
+                      :title='departmentData.children.length + " subdepartment" + (departmentData.children.length === 1 ? "" : "s")'
+                    ) {{ departmentData.children.length }}
+                    .hidden_dept.up(
+                      v-if='departmentData.showChildren',
+                      @click.prevent='doShowChildren(false)',
+                      @touchend.prevent='doShowChildren(false)',
+                      :title='departmentData.children.length + " subdepartment" + (departmentData.children.length === 1 ? "" : "s")'
+                    ) {{ departmentData.children.length }}
 
-         
-          
-          i.material-icons.view_button(v-if="displaySiblingIcon" v-on:click="showViewMenu(departmentData, $event)" title="Show/hide parents") visibility
-          i.material-icons.hidden_parents(v-if="hiddenParents" v-on:click="setHideParents(false)" title="Show parents") more_vert   
-        template(v-if="!departmentData")
-            .department.invisible(v-if='!managerPhotoView' :class="[type]")
-            .department.manager_photo.invisible(v-else :class="[type]")
-
+      i.material-icons.view_button(
+        v-if='displaySiblingIcon',
+        v-on:click='showViewMenu(departmentData, $event)',
+        title='Show/hide parents'
+      ) visibility
+      i.material-icons.hidden_parents(
+        v-if='hiddenParents',
+        v-on:click='setHideParents(false)',
+        title='Show parents'
+      ) more_vert
+    template(v-if='!departmentData')
+      .department.invisible(
+        v-if='!managerPhotoView',
+        :class='[type]'
+      )
+      .department.manager_photo.invisible(v-else, :class='[type]')
 </template>
 
 <script>
@@ -44,22 +88,22 @@ export default {
   props: {
     departmentData: {
       type: Object,
-      default: null
+      default: null,
     },
     level: {
       type: Number,
       required: true,
-      default: 0
+      default: 0,
     },
     type: {
       type: String,
-      default: ''
-    }
+      default: '',
+    },
   },
-  data: function() {
+  data: function () {
     return {
       displaySiblingIcon: false,
-      hiddenDept: 5
+      hiddenDept: 5,
     }
   },
   computed: {
@@ -71,19 +115,19 @@ export default {
       'config',
       'chart',
       'showNrPeople',
-      'showNrDepartments'
+      'showNrDepartments',
     ]),
-    managerPhoto: function() {
+    managerPhoto: function () {
       return this.managerPhotoView ? 'manager_photo' : ''
     },
-    active: function() {
+    active: function () {
       return this.departmentData === this.activeDepartment
         ? 'active_department'
         : ''
     },
-    hiddenParents: function() {
+    hiddenParents: function () {
       return this.departmentData === this.chart && this.chart.parent
-    }
+    },
   },
   methods: {
     ...mapActions([
@@ -91,7 +135,7 @@ export default {
       'hideChildren',
       'setHideSiblings',
       'setHideParents',
-      'toggleHideParents'
+      'toggleHideParents',
     ]),
 
     doShowChildren(down) {
@@ -114,7 +158,7 @@ export default {
       this.$store.commit('setActiveDepartment', department)
       this.$store.commit('showEditMenu', null)
 
-      this.$nextTick(e => {
+      this.$nextTick((e) => {
         if (this.editMode) {
           this.$store.commit('showEditMenu', event)
         }
@@ -146,8 +190,8 @@ export default {
     },
     hideSiblings() {
       this.setHideSiblings(this.departmentData)
-    }
-  }
+    },
+  },
 }
 </script>
 <style scoped>
@@ -248,8 +292,7 @@ export default {
   height: 5px;
   margin-bottom: 5px;
 }
-.textdiv {
-}
+
 .column {
   margin-top: 1px;
   margin-bottom: 0px;

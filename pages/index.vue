@@ -1,15 +1,20 @@
 <template lang='pug'>
-  .p-container(v-on:mousemove.selve="onMouseMove")
-    page-header
-    .container1(id='xparent')
-      org-chart(v-if="chart")
+.p-container(v-on:mousemove.selve='onMouseMove')
+  page-header
+  #xparent.container1
+    org-chart(v-if='chart')
 
-    edit-menu(v-if="showEditMenu")
-    #move_dept(v-if="moveDepartment" :style="{ left: page.left + 'px', top: page.top + 'px' }")
-      div {{moveDepartment.name}}
-      i.material-icons.arrow.down(v-if='moveDepartment.children.length') arrow_drop_down
-    side-screen(v-if='chart')
-    show-person(v-if='showPerson')
+  edit-menu(v-if='showEditMenu')
+  #move_dept(
+    v-if='moveDepartment',
+    :style='{ left: page.left + "px", top: page.top + "px" }'
+  )
+    div {{ moveDepartment.name }}
+    i.material-icons.arrow.down(
+      v-if='moveDepartment.children.length'
+    ) arrow_drop_down
+  side-screen(v-if='chart')
+  show-person(v-if='showPerson')
 </template>
 
 <script>
@@ -25,11 +30,11 @@ export default {
     PageHeader,
     SideScreen,
     EditMenu,
-    ShowPerson
+    ShowPerson,
   },
-  data: function() {
+  data: function () {
     return {
-      page: { left: 0, top: 0 }
+      page: { left: 0, top: 0 },
     }
   },
   computed: {
@@ -39,9 +44,9 @@ export default {
       'onlyShowParents',
       'showEditMenu',
       'moveDepartment',
-      'showPerson'
+      'showPerson',
     ]),
-    urlParam: function() {
+    urlParam: function () {
       if (this.showPerson) {
         return { employee: this.showPerson.id }
       }
@@ -62,16 +67,16 @@ export default {
       return {
         dept: this.activeDepartment.id,
         parents: parents,
-        children: children
+        children: children,
       }
-    }
+    },
   },
   watch: {
     urlParam(qry) {
       this.setUrl(qry)
-    }
+    },
   },
-  mounted: function() {
+  mounted: function () {
     this.initStore()
     this.getUrl(this.$route.query)
   },
@@ -82,7 +87,7 @@ export default {
       'setActiveEmployeeById',
       'setHideParents',
       'setOnlyShowParents',
-      'showChildren'
+      'showChildren',
     ]),
     onMouseMove(e) {
       var chartpos = document
@@ -92,10 +97,10 @@ export default {
       this.page.left = e.clientX - 0 * chartpos.left + 10
       this.page.top = e.clientY - 0 * chartpos.top + 10
     },
-    setUrl: function(qry) {
+    setUrl: function (qry) {
       this.$router.push({ path: this.$route.path, query: qry })
     },
-    getUrl: function(qry) {
+    getUrl: function (qry) {
       if (qry && qry.employee) {
         console.log(qry.employee)
         this.setActiveEmployeeById(qry.employee)
@@ -116,8 +121,8 @@ export default {
       if (!this.activeDepartment) {
         this.$router.push({ path: this.$route.path, query: null })
       }
-    }
-  }
+    },
+  },
 }
 </script>
 
