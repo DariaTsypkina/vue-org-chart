@@ -1,9 +1,9 @@
 <template lang='pug'>
-    #chart
-      .chart_container
-        show-dept(v-if="chart" :parent="chart" :level="1")
-        draw-lines(v-if="chart")
-        view-menu(v-if="showViewMenu")
+#chart
+  .chart_container
+    show-dept(v-if='chart', :parent='chart', :level='1')
+    draw-lines(v-if='chart')
+    view-menu(v-if='showViewMenu')
 </template>
 
 <script>
@@ -17,7 +17,7 @@ import { mapState, mapActions } from 'vuex'
 
 export default {
   components: { ShowDept, DrawLines, EditMenu, ViewMenu },
-  data: function() {
+  data: function () {
     return {
       tree: null,
 
@@ -28,18 +28,18 @@ export default {
         offset: -500,
         force: true,
         cancelable: true,
-        onStart: function(element) {
+        onStart: function (element) {
           // scrolling started
         },
-        onDone: function(element) {
+        onDone: function (element) {
           // scrolling is done
         },
-        onCancel: function() {
+        onCancel: function () {
           // scrolling has been interrupted
         },
         x: true,
-        y: true
-      }
+        y: true,
+      },
     }
   },
   computed: {
@@ -51,21 +51,21 @@ export default {
       'moveDepartment',
       'columnView',
       'columnView_noStaff',
-      'activeDepartment'
-    ])
+      'activeDepartment',
+    ]),
   },
   watch: {
-    activeDepartment: function(val) {}
+    activeDepartment: function (val) {},
   },
-  mounted: function() {
-    setTimeout(x => {
+  mounted: function () {
+    setTimeout((x) => {
       this.initZoom()
       this.$store.commit('addLine')
     }, 500)
   },
   methods: {
-    ...mapActions(['initZoom'])
-  }
+    ...mapActions(['initZoom']),
+  },
 }
 </script>
 <style scoped>
