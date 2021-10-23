@@ -50,23 +50,30 @@ export const actions = {
 
     // check if the data is saved in old format (array) or new format (tree)
     // new format has much faster load time
-    if (!INPUT_DATA.api_version) {
-      data = processData()
-      commit('createTree', data)
-      console.log('Loading OLD input data format')
-    } else if (INPUT_DATA.api_version === '1.0') {
-      data = processData10(INPUT_DATA.chart, [])
-      people = processPeople10(INPUT_DATA.people)
-      commit('createTree1', data)
-      console.log('Loading 1.0 input data format')
-    } else if (INPUT_DATA.api_version === '2.0') {
-      data = processData10(INPUT_DATA.chart, [])
-      people = processPeople20(INPUT_DATA.people)
-      commit('createTree1', data)
-      console.log('Loading 2.0 input data format')
-    } else {
-      alert('wrong version input file')
-    }
+    // if (!INPUT_DATA.api_version) {
+    //   data = processData()
+    //   commit('createTree', data)
+    //   console.log('Loading OLD input data format')
+    // } else if (INPUT_DATA.api_version === '1.0') {
+    //   data = processData10(INPUT_DATA.chart, [])
+    //   people = processPeople10(INPUT_DATA.people)
+    //   commit('createTree1', data)
+    //   console.log('Loading 1.0 input data format')
+    // } else if (INPUT_DATA.api_version === '2.0') {
+    //   data = processData10(INPUT_DATA.chart, [])
+    //   console.log("___data", data)
+    //   people = processPeople20(INPUT_DATA.people)
+    //   commit('createTree1', data)
+    //   console.log('Loading 2.0 input data format')
+    // } else {
+    //   alert('wrong version input file')
+    // }
+
+    data = processData10(INPUT_DATA.chart, [])
+    console.log("___data", data)
+    people = processPeople20(INPUT_DATA.people)
+    commit('createTree1', data)
+    console.log('Loading 2.0 input data format')
 
     commit('processAssignments', {
       departments: data.orgArray,
@@ -313,16 +320,17 @@ export const mutations = {
       state.showPerson = person
     }
   },
-  createTree(state, datas) {
-    state.orgArray = datas
-    state.chart = createTree(_.clone(datas))[0]
-    state.chart.showChildren = true
-  },
+  // createTree(state, datas) {
+  //   state.orgArray = datas
+  //   state.chart = createTree(_.clone(datas))[0]
+  //   state.chart.showChildren = true
+  // },
   createTree1(state, datas) {
     state.orgArray = []
     datas.orgArray.forEach(d => state.orgArray.push(d))
     state.chart = datas.dept
     state.chart.showChildren = true
+    console.log('chart', state.chart)
   },
   setPeople(state, datas) {
     state.people = datas
@@ -770,28 +778,28 @@ function getPosOfElement(dept) {
   return pos
 }
 
-function createTree(array, parent, nextparent, tree) {
-  tree = typeof tree !== 'undefined' ? tree : []
-  parent = typeof parent !== 'undefined' ? parent : { id: '' }
-  //var children = array.filter(child => child.parentId === parent.id)
-  var children = _.remove(
-    array,
-    child => child.parent_id === parent.id
-  )
+// function createTree(array, parent, nextparent, tree) {
+//   tree = typeof tree !== 'undefined' ? tree : []
+//   parent = typeof parent !== 'undefined' ? parent : { id: '' }
+//   //var children = array.filter(child => child.parentId === parent.id)
+//   var children = _.remove(
+//     array,
+//     child => child.parent_id === parent.id
+//   )
 
-  if (!parent.id) {
-    tree = children
-  } else {
-    parent['children'] = children
-    parent['parent'] = nextparent.id ? nextparent : null
-  }
-  if (children.length) {
-    children.forEach(child => {
-      createTree(array, child, parent)
-    })
-  }
-  return tree
-}
+//   if (!parent.id) {
+//     tree = children
+//   } else {
+//     parent['children'] = children
+//     parent['parent'] = nextparent.id ? nextparent : null
+//   }
+//   if (children.length) {
+//     children.forEach(child => {
+//       createTree(array, child, parent)
+//     })
+//   }
+//   return tree
+// }
 function findDept(chart, dept) {
   if (chart === dept) {
     return dept
@@ -919,38 +927,39 @@ function processData10(dept, orgArray) {
   })
   return { dept: dept, orgArray: orgArray }
 }
-function processData() {
-  var data = []
-  INPUT_DATA.chart.forEach(dept => {
-    var manager = INPUT_DATA.people.find(p => p.id == dept.manager_id)
-    var dataFields = []
-    if (dept.dataFields && dept.dataFields.length) {
-      dataFields = dept.dataFields
-    }
-    CONFIG.dataFields.forEach(f => {
-      var df = dataFields.find(x => x.name === f.name)
-      if (!df) {
-        dataFields.push({ ...f, value: '' })
-      } else {
-        df.type = f.type
-      }
-    })
 
-    data.push({
-      id: dept.id,
-      parent_id: dept.parent_id,
-      isStaff: dept.staff_department == 'Y',
-      name: dept.name,
-      description: dept.description,
-      manager: manager ? manager : { name: '' },
-      showChildren: false,
-      showParents: true,
-      onlyParents: false,
-      parent: null,
-      children: null,
-      onlyShowThisChild: null,
-      dataFields: dataFields
-    })
-  })
-  return data
-}
+// function processData() {
+//   var data = []
+//   INPUT_DATA.chart.forEach(dept => {
+//     var manager = INPUT_DATA.people.find(p => p.id == dept.manager_id)
+//     var dataFields = []
+//     if (dept.dataFields && dept.dataFields.length) {
+//       dataFields = dept.dataFields
+//     }
+//     CONFIG.dataFields.forEach(f => {
+//       var df = dataFields.find(x => x.name === f.name)
+//       if (!df) {
+//         dataFields.push({ ...f, value: '' })
+//       } else {
+//         df.type = f.type
+//       }
+//     })
+
+//     data.push({
+//       id: dept.id,
+//       parent_id: dept.parent_id,
+//       isStaff: dept.staff_department == 'Y',
+//       name: dept.name,
+//       description: dept.description,
+//       manager: manager ? manager : { name: '' },
+//       showChildren: false,
+//       showParents: true,
+//       onlyParents: false,
+//       parent: null,
+//       children: null,
+//       onlyShowThisChild: null,
+//       dataFields: dataFields
+//     })
+//   })
+//   return data
+// }

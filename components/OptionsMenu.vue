@@ -1,30 +1,31 @@
 <template lang='pug'>
-  div
-    .file(v-on:click='editMenuOpen = !editMenuOpen') 
-      i.material-icons.settings(v-on:click="" title='Set options') settings
-    .file_menu(v-if='editMenuOpen')
-        ul
-          li
-            input(type="checkbox" id="checkbox" v-model="columnView" )
-            label(for="checkbox") Column view
-          li
-            span &nbsp &nbsp
-            input(type="checkbox" id="checkbox3" v-model="columnView_noStaff")
-            label(for="checkbox3") Exclude staff dept
-          li
-              input(type="checkbox" id="checkbox1" v-model="managerNameView")
-              label(for="checkbox1") Show manager name
-          li
-              input(type="checkbox" id="checkbox4" v-model="managerPhotoView")
-              label(for="checkbox4") Show manager photo
-          li
-              input(type="checkbox" id="checkbox5" v-model="showNrDepartments")
-              label(for="checkbox5") Show nr of subdepartments
-          li
-              input(type="checkbox" id="checkbox6" v-model="showNrPeople")
-              label(for="checkbox6") Show nr of people in dept.
-          
-            
+div
+  .file(v-on:click='editMenuOpen = !editMenuOpen') 
+    i.material-icons.settings(v-on:click='', title='Set options') settings
+  .file_menu(v-if='editMenuOpen')
+    ul
+      li
+        input#checkbox(type='checkbox', v-model='columnView')
+        label(for='checkbox') Column view
+      li
+        span &nbsp &nbsp
+        input#checkbox3(
+          type='checkbox',
+          v-model='columnView_noStaff'
+        )
+        label(for='checkbox3') Exclude staff dept
+      li
+        input#checkbox1(type='checkbox', v-model='managerNameView')
+        label(for='checkbox1') Show manager name
+      li
+        input#checkbox4(type='checkbox', v-model='managerPhotoView')
+        label(for='checkbox4') Show manager photo
+      li
+        input#checkbox5(type='checkbox', v-model='showNrDepartments')
+        label(for='checkbox5') Show nr of subdepartments
+      li
+        input#checkbox6(type='checkbox', v-model='showNrPeople')
+        label(for='checkbox6') Show nr of people in dept.
 </template>
 
 <script>
@@ -32,9 +33,9 @@ import XLSX from 'xlsx'
 
 import { mapState, mapActions } from 'vuex'
 export default {
-  data: function() {
+  data: function () {
     return {
-      editMenuOpen: false
+      editMenuOpen: false,
     }
   },
   computed: {
@@ -45,7 +46,7 @@ export default {
       },
       set(value) {
         this.setShowNrDepartments(value)
-      }
+      },
     },
     showNrPeople: {
       get() {
@@ -53,7 +54,7 @@ export default {
       },
       set(value) {
         this.setShowNrPeople(value)
-      }
+      },
     },
     columnView: {
       get() {
@@ -63,7 +64,7 @@ export default {
         this.setColumnView(value)
         console.log('jaaa')
         this.$store.commit('cancelAll')
-      }
+      },
     },
     columnView_noStaff: {
       get() {
@@ -72,7 +73,7 @@ export default {
       set(value) {
         this.setColumnView_noStaff(value)
         this.$store.commit('cancelAll')
-      }
+      },
     },
     managerNameView: {
       get() {
@@ -81,7 +82,7 @@ export default {
       set(value) {
         this.$store.commit('setManagerNameView', value)
         this.$store.commit('cancelAll')
-      }
+      },
     },
     managerPhotoView: {
       get() {
@@ -90,7 +91,7 @@ export default {
       set(value) {
         this.setManagerPhotoView(value)
         this.$store.commit('cancelAll')
-      }
+      },
     },
     editMode: {
       get() {
@@ -99,7 +100,7 @@ export default {
       set(value) {
         this.$store.commit('setEditMode', value)
         this.$store.commit('cancelAll')
-      }
+      },
     },
     onlyShowParents: {
       get() {
@@ -108,8 +109,8 @@ export default {
       set(value) {
         this.setOnlyShowParents(value)
         this.$store.commit('cancelAll')
-      }
-    }
+      },
+    },
   },
   methods: {
     ...mapActions([
@@ -118,9 +119,9 @@ export default {
       'setColumnView',
       'setOnlyShowParents',
       'setShowNrDepartments',
-      'setShowNrPeople'
-    ])
-  }
+      'setShowNrPeople',
+    ]),
+  },
 }
 </script>
 
@@ -131,8 +132,7 @@ export default {
   width: 50px;
   height: 50px;
 }
-.settings {
-}
+
 .settings:hover {
   border: 1px solid white;
 }
