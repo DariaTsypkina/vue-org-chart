@@ -57,6 +57,7 @@ div(
                     ) {{ departmentData.children.length }}
                     .hidden_dept.up(
                       v-if='departmentData.showChildren',
+                      weeeeeeeeeeeeeeeeeeeeeeeeeeeeee,
                       @click.prevent='doShowChildren(false)',
                       @touchend.prevent='doShowChildren(false)',
                       :title='departmentData.children.length + " subdepartment" + (departmentData.children.length === 1 ? "" : "s")'
