@@ -1,47 +1,70 @@
 <template lang='pug'>
-  .container
-    table
-      template(v-if="!staffChildren.length")
-        tr
-          td
-            dept-box(:department-data="parent" :level="level" type='normal')
-            template(v-if="columnView && (!parent.parent || parent.parent.showChildren) && !parent.showChildren")
-              table(v-if="!(parent.isStaff && columnView_noStaff)")
-                tr( v-for="child in parent.children")
-                  td
-                    dept-box(:department-data="child" :level="level+1" type='column')
-      template(v-else)
-        tr(rowspan="2")
-            td
-            td.dept
-              dept-box(:department-data="parent" :level="level" type='normal')
-              template(v-if="columnView && (!parent.parent || parent.parent.showChildren) && !parent.showChildren")
-                table(v-if="!(parent.isStaff && columnView_noStaff)")
-                  tr( v-for="child in parent.children")
-                    td
-                      dept-box(:department-data="child" :level="level+1" type='column')
+.container
+  table
+    template(v-if='!staffChildren.length')
+      tr
+        td
+          dept-box(
+            :department-data='parent',
+            :level='level',
+            type='normal'
+          )
+          template(
+            v-if='columnView && (!parent.parent || parent.parent.showChildren) && !parent.showChildren'
+          )
+            table(v-if='!(parent.isStaff && columnView_noStaff)')
+              tr(v-for='child in parent.children')
+                td
+                  dept-box(
+                    :department-data='child',
+                    :level='level + 1',
+                    type='column'
+                  )
+    template(v-else)
+      tr(rowspan='2')
+        td
+        td.dept
+          dept-box(
+            :department-data='parent',
+            :level='level',
+            type='normal'
+          )
+          template(
+            v-if='columnView && (!parent.parent || parent.parent.showChildren) && !parent.showChildren'
+          )
+            table(v-if='!(parent.isStaff && columnView_noStaff)')
+              tr(v-for='child in parent.children')
+                td
+                  dept-box(
+                    :department-data='child',
+                    :level='level + 1',
+                    type='column'
+                  )
 
-            td
-        tr(v-if="parent.showChildren")
-          td
-            div.staff-left
-              table
-                tr(v-for="staff in staffChildren")
-                  td
-                    show-dept(:parent="staff.left" :level="level+1")
-          td.dept
-          td
-            div.staff-right
-              table
-                tr(v-for="staff in staffChildren")
-                  td 
-                    show-dept(v-if="staff.right" :parent="staff.right" :level="level+1")
-    table
-      tr(v-if="parent.showChildren")
-        td(v-for="child in hierarchyChildren")
-          show-dept(:parent="child" :level="level+1")
-               
-  </template>
+        td
+      tr(v-if='parent.showChildren')
+        td
+          .staff-left
+            table
+              tr(v-for='staff in staffChildren')
+                td
+                  show-dept(:parent='staff.left', :level='level + 1')
+        td.dept
+        td
+          .staff-right
+            table
+              tr(v-for='staff in staffChildren')
+                td 
+                  show-dept(
+                    v-if='staff.right',
+                    :parent='staff.right',
+                    :level='level + 1'
+                  )
+  table
+    tr(v-if='parent.showChildren')
+      td(v-for='child in hierarchyChildren')
+        show-dept(:parent='child', :level='level + 1')
+</template>
 
 <script>
 import DeptBox from '~/components/DeptBox.vue'
@@ -54,33 +77,34 @@ export default {
     parent: {
       type: Object,
       required: true,
-      default: null
+      default: null,
     },
     level: {
       type: Number,
       required: true,
-      default: 0
-    }
+      default: 0,
+    },
   },
 
-  data: function() {
+  data: function () {
     return {
-      showChildren: false
+      showChildren: false,
     }
   },
   computed: {
     ...mapState(['columnView', 'columnView_noStaff']),
+
     hierarchyChildren() {
       if (this.parent.onlyShowThisChild) {
         return [this.parent.onlyShowThisChild]
       }
-      return this.parent.children.filter(e => !e.isStaff)
+      return this.parent.children.filter((e) => !e.isStaff)
     },
     staffChildren() {
       if (this.parent.onlyShowThisChild) {
         return []
       }
-      var staff = this.parent.children.filter(e => e.isStaff)
+      var staff = this.parent.children.filter((e) => e.isStaff)
       var result = []
       staff.forEach((e, i) => {
         if (i % 2 === 0) {
@@ -95,8 +119,8 @@ export default {
       return this.parent.children.filter((e, i) => {
         return e.isStaff && i % 2 === 0
       })
-    }
-  }
+    },
+  },
 }
 </script>
 <style scoped>

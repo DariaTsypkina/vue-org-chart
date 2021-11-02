@@ -164,10 +164,12 @@ export const actions = {
     refreshLines(this)
   },
   setColumnView_noStaff({ commit, state, dispatch }, value) {
+    
     commit('setColumnView_noStaff', value)
     refreshLines(this, state.activeDepartment)
   },
   setColumnView({ commit, state, dispatch }, value) {
+    
     commit('setColumnView', value)
     refreshLines(this, state.activeDepartment)
   },
@@ -188,6 +190,7 @@ export const actions = {
     refreshLines(this, state.activeDepartment)
   },
   refreshLines({ commit, state, dispatch }, value) {
+    
     refreshLines(this, state.activeDepartment)
   },
   setActiveDepartmentById({ commit, state, dispatch }, deptId) {
@@ -215,9 +218,9 @@ export const mutations = {
     if (!state.config.editCommand) {
       state.config.editCommand = '_edit'
     }
-    if (!state.config.personProperties) {
-      state.config.personProperties = state.defaultPersonProperties
-    }
+    // if (!state.config.personProperties) {
+    //   state.config.personProperties = state.defaultPersonProperties
+    // }
     state.columnView = state.config.startView.columnview
     state.columnView_noStaff = !state.config.startView.staffColumnview
     state.managerNameView = state.config.startView.names
@@ -393,9 +396,11 @@ export const mutations = {
     state.selectedPerson[data.field] = data.value
   },
   setColumnView(state, value) {
+    debugger
     state.columnView = value
   },
   setColumnView_noStaff(state, value) {
+    debugger
     state.columnView_noStaff = value
   },
   setManagerNameView(state, value) {
@@ -857,6 +862,7 @@ function departmentIsVisible(dept) {
 }
 
 function refreshLines(that, dept) {
+  
   that.commit('removeLines')
   setTimeout(x => {
     that.commit('addLine')

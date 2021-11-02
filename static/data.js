@@ -26,7 +26,23 @@ var INPUT_DATA = {
             }],
             "children": [],
             "showChildren": true
-        }, {
+        }, 
+        {
+            "id": "28",
+            "name": "Office",
+            "description": "",
+            "parent_id": "1",
+            "staff_department": "Y",
+            "manager_id": "B01",
+            "dataFields": [{
+                "name": "Location",
+                "value": "",
+                "type": "text"
+            }],
+            "children": [],
+            "showChildren": true
+        },
+        {
             "id": "3",
             "name": "Communication",
             "description": "",
