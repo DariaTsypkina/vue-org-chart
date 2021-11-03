@@ -4,7 +4,7 @@ import 'core-js/es6/map'
 import 'core-js/es6/set'
 import Vue from 'vue'
 
-var _ = require('lodash')
+// var _ = require('lodash')
 
 export const state = () => ({
   config: CONFIG,
@@ -365,7 +365,7 @@ export const mutations = {
         assignmentstotal.push({ person: p, role: ass.role })
       })
       dept.employees = assignmentstotal
-
+      // console.log('dept employees', dept.employees)
       dept.employees.sort(
         (a, b) =>
           a.person.name > b.person.name

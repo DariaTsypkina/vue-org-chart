@@ -62,22 +62,22 @@ div(
                       :title='departmentData.children.length + " subdepartment" + (departmentData.children.length === 1 ? "" : "s")'
                     ) {{ departmentData.children.length }}
 
-      i.material-icons.view_button(
-        v-if='displaySiblingIcon',
-        v-on:click='showViewMenu(departmentData, $event)',
-        title='Show/hide parents'
-      ) visibility
-      i.material-icons.hidden_parents(
-        v-if='hiddenParents',
-        v-on:click='setHideParents(false)',
-        title='Show parents'
-      ) more_vert
-    template(v-if='!departmentData')
-      .department.invisible(
-        v-if='!managerPhotoView',
-        :class='[type]'
-      )
-      .department.manager_photo.invisible(v-else, :class='[type]')
+    //-   i.material-icons.view_button(
+    //-     v-if='displaySiblingIcon',
+    //-     v-on:click='showViewMenu(departmentData, $event)',
+    //-     title='Show/hide parents'
+    //-   ) visibility
+    //-   i.material-icons.hidden_parents(
+    //-     v-if='hiddenParents',
+    //-     v-on:click='setHideParents(false)',
+    //-     title='Show parents'
+    //-   ) more_vert
+    //- template(v-if='!departmentData')
+    //-   .department.invisible(
+    //-     v-if='!managerPhotoView',
+    //-     :class='[type]'
+    //-   )
+    //-   .department.manager_photo.invisible(v-else, :class='[type]')
 </template>
 
 <script>

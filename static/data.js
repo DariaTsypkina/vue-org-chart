@@ -47,7 +47,7 @@ var INPUT_DATA = {
             "name": "Communication",
             "description": "",
             "parent_id": "1",
-            "staff_department": "Y",
+            "staff_department": "N",
             "manager_id": "B02",
             "dataFields": [{
                 "name": "Location",

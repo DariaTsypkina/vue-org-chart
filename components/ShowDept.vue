@@ -40,7 +40,6 @@
                     :level='level + 1',
                     type='column'
                   )
-
         td
       tr(v-if='parent.showChildren')
         td
@@ -105,6 +104,7 @@ export default {
         return []
       }
       var staff = this.parent.children.filter((e) => e.isStaff)
+
       var result = []
       staff.forEach((e, i) => {
         if (i % 2 === 0) {
@@ -115,11 +115,11 @@ export default {
       })
       return result
     },
-    staffChildrenR() {
-      return this.parent.children.filter((e, i) => {
-        return e.isStaff && i % 2 === 0
-      })
-    },
+    // staffChildrenR() {
+    //   return this.parent.children.filter((e, i) => {
+    //     return e.isStaff && i % 2 === 0
+    //   })
+    // },
   },
 }
 </script>
