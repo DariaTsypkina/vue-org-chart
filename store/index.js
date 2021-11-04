@@ -75,11 +75,11 @@ export const actions = {
     commit('createTree1', data)
     console.log('Loading 2.0 input data format')
 
-    commit('processAssignments', {
-      departments: data.orgArray,
-      people: people,
-      assignments: INPUT_DATA.assignments
-    })
+    // commit('processAssignments', {
+    //   departments: data.orgArray,
+    //   people: people,
+    //   assignments: INPUT_DATA.assignments
+    // })
     commit('setPeople', people)
     commit('setAssignments', INPUT_DATA.assignments)
     var that = this
@@ -134,6 +134,7 @@ export const actions = {
     refreshLines(this, dept)
   },
   updateActiveDepartmentIsStaff({ commit, state }, dept) {
+    debugger
     commit('updateActiveDepartmentIsStaff', dept)
     refreshLines(this)
   },
@@ -423,6 +424,7 @@ export const mutations = {
     console.log('showchildren called', dept)
     dept.showChildren = true
     if (dept.parent && state.onlyShowParents) {
+      debugger
       dept.parent.onlyShowThisChild = dept
     }
   },
@@ -513,11 +515,12 @@ export const mutations = {
   },
 
   updateActiveDepartmentIsStaff(state, isStaff) {
+    debugger
     state.activeDepartment.isStaff = isStaff
   },
   hideChildren(state, dept) {
     var index = state.orgArray.findIndex(e => e.id === dept.id)
-
+    // debugger
     dept.showChildren = false
     state.orgArray.splice(index, 1, dept)
   },
@@ -640,6 +643,7 @@ export const mutations = {
     }
   },
   toggleHideParents(state) {
+    debugger
     state.activeDepartment.showParents = state.activeDepartment
       .showParents
       ? false
@@ -927,6 +931,7 @@ function processData10(dept, orgArray) {
   dept.showParents = true
   dept.onlyParents = false
   dept.onlyShowThisChild = null
+  console.log(dept.name, dept.isStaff)
   dept.children.forEach(c => {
     c.parent = dept
     processData10(c, orgArray)

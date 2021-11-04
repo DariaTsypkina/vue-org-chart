@@ -17,31 +17,31 @@ import { mapState, mapActions } from 'vuex'
 
 export default {
   components: { ShowDept, DrawLines, EditMenu, ViewMenu },
-  data: function () {
-    return {
-      tree: null,
+  // data: function () {
+  //   return {
+  //     tree: null,
 
-      cancelScroll: null,
-      scrollOptions: {
-        container: 'body',
-        easing: 'ease-in',
-        offset: -500,
-        force: true,
-        cancelable: true,
-        onStart: function (element) {
-          // scrolling started
-        },
-        onDone: function (element) {
-          // scrolling is done
-        },
-        onCancel: function () {
-          // scrolling has been interrupted
-        },
-        x: true,
-        y: true,
-      },
-    }
-  },
+  //     cancelScroll: null,
+  //     scrollOptions: {
+  //       container: 'body',
+  //       easing: 'ease-in',
+  //       offset: -500,
+  //       force: true,
+  //       cancelable: true,
+  //       onStart: function (element) {
+  //         // scrolling started
+  //       },
+  //       onDone: function (element) {
+  //         // scrolling is done
+  //       },
+  //       onCancel: function () {
+  //         // scrolling has been interrupted
+  //       },
+  //       x: true,
+  //       y: true,
+  //     },
+  //   }
+  // },
   computed: {
     ...mapState([
       'chart',
@@ -54,9 +54,9 @@ export default {
       'activeDepartment',
     ]),
   },
-  watch: {
-    activeDepartment: function (val) {},
-  },
+  // watch: {
+  //   activeDepartment: function (val) {},
+  // },
   mounted: function () {
     setTimeout((x) => {
       this.initZoom()

@@ -97,6 +97,7 @@ export default {
       if (this.parent.onlyShowThisChild) {
         return [this.parent.onlyShowThisChild]
       }
+
       return this.parent.children.filter((e) => !e.isStaff)
     },
     staffChildren() {

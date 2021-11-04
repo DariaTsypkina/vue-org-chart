@@ -1,60 +1,98 @@
 <template lang='pug'>
-  div
-    .property
-      span.label {{uiNames.sidebar.departmentName}}
-      br
-      input.name(v-if='editMode' :class="{error:!activeDepartment_name}" v-model="activeDepartment_name")
-      span(v-else).text {{activeDepartment_name}}
+div
+  .property
+    span.label {{ uiNames.sidebar.departmentName }}
+    br
+    input.name(
+      v-if='editMode',
+      :class='{ error: !activeDepartment_name }',
+      v-model='activeDepartment_name'
+    )
+    span.text(v-else) {{ activeDepartment_name }}
 
-    .property
-      span.label {{uiNames.sidebar.departmentManager}}
-      i.material-icons.edit(v-if='editMode' v-on:click='personPicker="manager"') edit
-      br
-      span.text(v-if='activeDepartment.manager.name') {{activeDepartment.manager.name}}
-      span.untext(v-else) No manager
-    .property
-      span.label {{uiNames.sidebar.departmentDescription}}
-      br 
-      textarea.description(v-if='editMode' v-model="activeDepartment_description")
-      span(v-else).text {{activeDepartment_description}}
+  .property
+    span.label {{ uiNames.sidebar.departmentManager }}
+    i.material-icons.edit(
+      v-if='editMode',
+      v-on:click='personPicker = "manager"'
+    ) edit
+    br
+    span.text(v-if='activeDepartment.manager.name') {{ activeDepartment.manager.name }}
+    span.untext(v-else) No manager
+  .property
+    span.label {{ uiNames.sidebar.departmentDescription }}
+    br 
+    textarea.description(
+      v-if='editMode',
+      v-model='activeDepartment_description'
+    )
+    span.text(v-else) {{ activeDepartment_description }}
 
-    .property(v-for="field in activeDepartment.dataFields" v-if="field.value")
-      span.label {{field.name}}
-      br
-      template(v-if='editMode')
-        // todo edit extra properties
-      templage(v-else)
-        template(v-if='field.type==="url"')
-          a(:href="field.value" target="_blank") Link
-        template(v-else)
-          span.text {{field.value}}
-
-    .property
-      template(v-if='!editMode')
-        span.label {{uiNames.sidebar.departmentType}}
-        br
-        span(v-if='activeDepartment_isStaff') {{uiNames.sidebar.departmentTypeStaff}}
-        span(v-else)  {{uiNames.sidebar.departmentTypeNormal}}
+  .property(
+    v-for='field in activeDepartment.dataFields',
+    v-if='field.value'
+  )
+    span.label {{ field.name }}
+    br
+    template(v-if='editMode')
+      // todo edit extra properties
+    templage(v-else)
+      template(v-if='field.type === "url"')
+        a(:href='field.value', target='_blank') Link
       template(v-else)
-        span.label Staff department:
-        input.isstaff(type='checkbox' v-model="activeDepartment_isStaff" :disabled="!editMode")
-    .property
-      span.label  {{uiNames.sidebar.departmentHierarchy}}
-      ul
-        li.clickable(v-for='(parent, pnr) in parents' v-on:click="setActiveDepartment(parent)") 
-          span(v-for="n in pnr") &nbsp
-          i(v-if="pnr !==0").material-icons.sub subdirectory_arrow_right
-          span {{parent.name}}
-        li.clickable(v-on:click="setActiveDepartment(activeDepartment)")
-          span(v-for="n in parents.length") &nbsp
-          i(v-if="parents.length").material-icons.sub subdirectory_arrow_right
-          span.this-department {{activeDepartment.name}}
-        li.clickable(v-for='child in activeDepartment.children' v-on:click="setActiveDepartment(child)") 
-          span(v-for="n in parents.length+5") &nbsp
-          span {{child.name}}
-    img.profile(v-if='activeDepartment.manager.photo' :src='config.photoUrl.prefix+activeDepartment.manager.photo+config.photoUrl.suffix' v-on:click='visitProfile(activeDepartment.manager)' title='Goto profile')
-    .material-icons.profile.nophoto(v-else v-on:click='visitProfile(activeDepartment.manager)' title='Goto profile') face
-    person-picker(v-if='personPicker' type='manager' v-on:close='personPicker=null') 
+        span.text {{ field.value }}
+
+  .property
+    template(v-if='!editMode')
+      span.label {{ uiNames.sidebar.departmentType }}
+      br
+      span(v-if='activeDepartment_isStaff') {{ uiNames.sidebar.departmentTypeStaff }}
+      span(v-else) {{ uiNames.sidebar.departmentTypeNormal }}
+    template(v-else)
+      span.label Staff department:
+      input.isstaff(
+        type='checkbox',
+        v-model='activeDepartment_isStaff',
+        :disabled='!editMode'
+      )
+  .property
+    span.label {{ uiNames.sidebar.departmentHierarchy }}
+    ul
+      li.clickable(
+        v-for='(parent, pnr) in parents',
+        v-on:click='setActiveDepartment(parent)'
+      ) 
+        span(v-for='n in pnr') &nbsp
+        i.material-icons.sub(v-if='pnr !== 0') subdirectory_arrow_right
+        span {{ parent.name }}
+      li.clickable(
+        v-on:click='setActiveDepartment(activeDepartment)'
+      )
+        span(v-for='n in parents.length') &nbsp
+        i.material-icons.sub(v-if='parents.length') subdirectory_arrow_right
+        span.this-department {{ activeDepartment.name }}
+      li.clickable(
+        v-for='child in activeDepartment.children',
+        v-on:click='setActiveDepartment(child)'
+      ) 
+        span(v-for='n in parents.length + 5') &nbsp
+        span {{ child.name }}
+  img.profile(
+    v-if='activeDepartment.manager.photo',
+    :src='config.photoUrl.prefix + activeDepartment.manager.photo + config.photoUrl.suffix',
+    v-on:click='visitProfile(activeDepartment.manager)',
+    title='Goto profile'
+  )
+  .material-icons.profile.nophoto(
+    v-else,
+    v-on:click='visitProfile(activeDepartment.manager)',
+    title='Goto profile'
+  ) face
+  person-picker(
+    v-if='personPicker',
+    type='manager',
+    v-on:close='personPicker = null'
+  ) 
 </template>
 
 <script>
@@ -63,11 +101,11 @@ import PersonPicker from '~/components/PersonPicker.vue'
 
 export default {
   components: { PersonPicker },
-  data: function() {
+  data: function () {
     return {
       personPicker: null,
       activeTab: 1,
-      noPhotos: []
+      noPhotos: [],
     }
   },
   computed: {
@@ -77,34 +115,34 @@ export default {
       'editMode',
       'people',
       'config',
-      'uiNames'
+      'uiNames',
     ]),
     activeDepartment_name: {
-      get: function() {
+      get: function () {
         return this.$store.state.activeDepartment.name
       },
-      set: function(val) {
+      set: function (val) {
         this.$store.commit('updateActiveDepartmentName', val)
-      }
+      },
     },
     activeDepartment_description: {
-      get: function() {
+      get: function () {
         return this.$store.state.activeDepartment.description
       },
-      set: function(val) {
+      set: function (val) {
         this.$store.commit('updateActiveDepartmentDescription', val)
-      }
+      },
     },
     activeDepartment_isStaff: {
-      get: function() {
+      get: function () {
         return this.$store.state.activeDepartment.isStaff
       },
-      set: function(val) {
+      set: function (val) {
         this.updateActiveDepartmentIsStaff(val)
-      }
+      },
     },
 
-    parents: function() {
+    parents: function () {
       var parents = []
       var department = this.activeDepartment
       while (department.parent) {
@@ -113,25 +151,26 @@ export default {
       }
       return parents
     },
-    children: function() {
+    children: function () {
       return this.activeDepartment.children
-    }
+    },
   },
   methods: {
     ...mapActions([
       'setShowDepartment',
-      'updateActiveDepartmentIsStaff'
+      'updateActiveDepartmentIsStaff',
     ]),
     ...mapMutations(['setShowPerson', 'updateRole']),
 
     setActiveDepartment(department) {
+      debugger
       this.setShowDepartment(department)
     },
 
     visitProfile(person) {
       if (person.name) this.setShowPerson(person)
-    }
-  }
+    },
+  },
 }
 </script>
 
