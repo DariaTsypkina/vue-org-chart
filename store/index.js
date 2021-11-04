@@ -643,7 +643,7 @@ export const mutations = {
     }
   },
   toggleHideParents(state) {
-    debugger
+    
     state.activeDepartment.showParents = state.activeDepartment
       .showParents
       ? false
