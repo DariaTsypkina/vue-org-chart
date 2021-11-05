@@ -194,12 +194,12 @@ export default {
     },
   },
 
-  mounted: function () {
-    console.log(
-      this.departmentData.name,
-      this.departmentData.showChildren
-    )
-  },
+  // mounted: function () {
+  //   console.log(
+  //     this.departmentData.name,
+  //     this.departmentData.showChildren
+  //   )
+  // },
 }
 </script>
 <style scoped>

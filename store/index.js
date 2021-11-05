@@ -114,11 +114,11 @@ export const actions = {
       instance.moveTo(pos.x, pos.y)
     }, 500)
     instance.on('panend', function(e) {
-      console.log('Fired when pan ended', e)
+      // console.log('Fired when pan ended', e)
       var x = document.getElementById('chart')
-      console.log('transform', x.style.transform)
+      // console.log('transform', x.style.transform)
       var scaleX = x.getBoundingClientRect().width / x.offsetWidth
-      console.log(scaleX)
+      // console.log(scaleX)
     })
     commit('setZoomInstance', instance)
   },
@@ -422,6 +422,8 @@ export const mutations = {
   },
   showChildren(state, dept) {
     console.log('showchildren called', dept)
+    console.log("children", dept.children)
+    console.log('parent', dept.isStaff)
     dept.showChildren = true
     if (dept.parent && state.onlyShowParents) {
       debugger
@@ -931,7 +933,6 @@ function processData10(dept, orgArray) {
   dept.showParents = true
   dept.onlyParents = false
   dept.onlyShowThisChild = null
-  console.log(dept.name, dept.isStaff)
   dept.children.forEach(c => {
     c.parent = dept
     processData10(c, orgArray)
